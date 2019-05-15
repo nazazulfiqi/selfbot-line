@@ -1,0 +1,128 @@
+{
+    "Img": {},
+    "addImage": {
+        "name": "",
+        "status": false
+    },
+    "addSticker": {
+        "name": "",
+        "status": false
+    },
+    "addStickertemplate": {
+        "namee": "",
+        "statuss": false
+    },
+    "addTemplate": {
+        "statustext": true,
+        "texts": "https://line.me/R/ti/p/%40137gcwpz"
+    },
+    "addText": {
+        "statustext": true,
+        "texts": "addtext hery"
+    },
+    "addTmpStic": {
+        "name": "",
+        "status": false
+    },
+    "allchangeDual": false,
+    "allchangedual": false,
+    "autoAdd": false,
+    "autoAddMessage": "ₕₐᵢ @! ₜₑᵣᵢₘₐ ₖₐₛᵢₕ\nₜₗₕ ₘₑₙₐₘbₐₕₖₐₙ ₛₐyₐ ⱼₐdᵢ ₜₑₘₐₙ",
+    "autoAnswerMessage": "Halooo :)) Pc Yan yaaa ?\n\nYan Lagi Nugas Klo Mau di bales\n\nCall aja biar Notifnya masuk 􀰂􀅖excited cloud􏿿",
+    "autoJoin": false,
+    "autoJoinMessage": "ₕₑₗₗₒ @! \nₜₑᵣᵢₘₐₖₐₛᵢₕ ₖₐᵣₑₙₐ ₜₑₗₐₕ ₘₑₙgᵤₙdₐₙg ₛₐyₐ.",
+    "autoJoinTicket": false,
+    "autoJoinTicketBot": false,
+    "autoRead": false,
+    "autoReply": false,
+    "autoRespon": false,
+    "autoResponMessage": "cᵢₑ..cᵢₑ Yₐₙg ₜₐg ₗₐgᵢ ₖₐₙgₑₙ ₘₐ gᵤₐ yₐₐ",
+    "autoResponbob": false,
+    "mention": "ｍａｓｕｋ ｋａｋ，，ｎｇｉｔｉｐ ｍｕｌｕ",
+    "backup": false,
+    "blackList": {},
+    "changeCover": false,
+    "changeDual": false,
+    "changeGroupPicture": [],
+    "changePictureProfile": false,
+    "changePictureProfileKing": false,
+    "changePictureProfileRezl": false,
+    "changePictureProfilee": false,
+    "changeVpProfile": false,
+    "checkContact": false,
+    "checkPost": false,
+    "checkSticker": false,
+    "cloneContact": false,
+    "commentPost": "ＡＵＴＯＬＩＫＥ ＢＹ ＭＡＸ",
+    "contactBan": false,
+    "decode": [],
+    "defendMode": false,
+    "delFriend": false,
+    "detectUnsend": false,
+    "drawink": [],
+    "groupInvite": false,
+    "helpT": "|",
+    "keyCommand": "",
+    "kingchangeDual": false,
+    "messageSticker": {
+        "addName": null,
+        "addStatus": false,
+        "listSticker": {
+            "addSticker": {
+                "STKID": "51626498",
+                "STKPKGID": "11538",
+                "STKVER": "1"
+            },
+            "leaveSticker": {
+                "STKID": "25630193",
+                "STKPKGID": "10210",
+                "STKVER": "1"
+            },
+            "readerSticker": {
+                "STKID": "15356454",
+                "STKPKGID": "1395389",
+                "STKVER": "1"
+            },
+            "responSticker": {
+                "STKID": "52002762",
+                "STKPKGID": "11537",
+                "STKVER": "1"
+            },
+            "sleepSticker": null,
+            "welcomeSticker": {
+                "STKID": "4893632",
+                "STKPKGID": "4107",
+                "STKVER": "1"
+            }
+        }
+    },
+    "memberCancel": {
+        "members": 5,
+        "on": true
+    },
+    "mimic": {
+        "status": true,
+        "target": {}
+    },
+    "myProfile": {
+        "coverId": "",
+        "displayName": "",
+        "pictureStatus": "",
+        "statusMessage": ""
+    },
+    "mycc": "5nXBC18M7fFI/6J7gc9Q8tp4cQqWhcdyatZCEG09mVcTWX6BT2OpbsqGcEet0K2HOxOkIHU9S0Sq0pipeKQdh+6GVE2zKf799Ui/PKi9WxZSKaY5Jb3cHm67EZeUey8wd50YUcJt21ez1Iw4MOFcCY+Ns2U/kgWZiLLPjng3rxpgnxYGyRcE1f9bwAA35sHAfJSi7xS/ksdRbh920zqzAK0Wky+2V+gnm0nTPUuQB7nt2hgDQ5U34Dv8oSHXNr9o15ZJ68/0/Amwy46C5ugyoqookxI4/Oh+Iu+tjT0VtP2sZiwVxUAv7obXiKVogt7ugTkLt5OqekHEiLcX1af6/IDc181zVa0/May99Rl/qRI",
+    "protectGroup": {},
+    "rezlchangeDual": false,
+    "ryncc": "UAy+aQO9xvcHCMm6MibGMhjfusZqQ9RCJdIzB1Dt6jaP6Hu6DZhssQd7KVV/hYuKDSAnb1aZgp+L6mkzDM/zSVg39U6QtTUODW9BHdToKlOUqHulujlwq5ipbmX9oRx5/lQx3myLJk+GHBscB/Hw/znLt/UKEBHd831nWGQnjWnhhPPHSKphmFlO4n+/JoTVOvuuS9zw6PUv7Dn6vBt3tW5FLIoEw6z/sCt5oGdLLfKmqza0gERQOzjpX2hL/pFY15ZJ68/0/Amwy46C5ugyoqookxI4/Oh+Iu+tjT0VtP3en35GkxfjCmMJARJMvVFMVOGRhQHThHnl11O0iVURUQM+vpepJDS4XWltIoUOMzk",
+    "rynchangeDual": false,
+    "setKey": false,
+    "simiSimi": [],
+    "sniff": [],
+    "sticker": [],
+    "tatan": "Radisti",
+    "token": {},
+    "unbanContact": false,
+    "watercolor": [],
+    "welcomee": {},
+    "welcome":"Wₑₗcₒₘₑ ₖₖ ......."
+}
