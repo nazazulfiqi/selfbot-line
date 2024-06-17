@@ -83,41 +83,7 @@ class Timeline(Channel):
 
     """Post"""
 
-
     @loggedIn
-    def createPost(self, text, holdingTime=None):
-        params = {'homeId': self.profile.mid, 'sourceType': 'TIMELINE'}
-        url = self.server.urlEncode(self.server.LINE_TIMELINE_API, '/v39/post/create.json', params)
-        payload = {'postInfo': {'readPermission': {'type': 'ALL'}}, 'sourceType': 'TIMELINE', 'contents': {'text': text}}
-        if holdingTime != None:
-            payload["postInfo"]["holdingTime"] = holdingTime
-        data = json.dumps(payload)
-        r = self.server.postContent(url, data=data, headers=self.server.timelineHeaders)
-        return r.json()
-
-    @loggedIn
-    def createPostGroup(self, text,to, holdingTime=None,textMeta=[]):
-        params = {'homeId': to, 'sourceType': 'GROUPHOME'}
-        url = self.server.urlEncode(self.server.LINE_TIMELINE_API, '/v39/post/create.json', params)
-        payload = {'postInfo': {'readPermission': {'type': 'ALL'}}, 'sourceType': 'GROUPHOME', 'contents': {'text': text,'textMeta':textMeta}}
-        if holdingTime != None:
-            payload["postInfo"]["holdingTime"] = holdingTime
-        data = json.dumps(payload)
-        r = self.server.postContent(url, data=data, headers=self.server.timelineHeaders)
-        return r.json()
-
-    @loggedIn
-    def createPostGroupR(self, text,to):
-        params = {'homeId': to, 'sourceType': 'GROUPHOME'}
-        url = self.server.urlEncode(self.server.LINE_TIMELINE_API, '/v39/relay/create.json', params)
-        payload = {'postInfo': {'readPermission': {'type': 'ALL'}}, 'sourceType': 'GROUPHOME', 'contents': {'text': text,'textMeta':textMeta}}
-        if holdingTime != None:
-            payload["postInfo"]["holdingTime"] = holdingTime
-        data = json.dumps(payload)
-        r = self.server.postContent(url, data=data, headers=self.server.timelineHeaders)
-        return r.json()
-
-    @loggedIn 
     def createPost(self, text, holdingTime=None):
         params = {'homeId': self.profile.mid, 'sourceType': 'TIMELINE'}
         url = self.server.urlEncode(self.server.LINE_TIMELINE_API, '/v39/post/create.json', params)

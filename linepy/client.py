@@ -57,4 +57,4 @@ class LINE(Auth, Models, Talk, Square, Call, Timeline, Shop, Liff):
         Call.__init__(self)
         Timeline.__init__(self)
         Shop.__init__(self)
-        Liff.__init__(self)
+       # Liff.__init__(self)

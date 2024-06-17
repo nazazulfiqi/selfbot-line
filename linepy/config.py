@@ -3,11 +3,11 @@ from akad.ttypes import ApplicationType
 import re
 
 class Config(object):
-    LINE_HOST_DOMAIN            = 'https://gw.line.naver.jp'
+    LINE_HOST_DOMAIN            = 'https://gd2.line.naver.jp'
     LINE_OBS_DOMAIN             = 'https://obs-sg.line-apps.com'
-    LINE_TIMELINE_API           = 'https://gw.line.naver.jp/mh/api'
-    LINE_TIMELINE_MH            = 'https://gw.line.naver.jp/mh'
-
+    LINE_TIMELINE_API           = 'https://gd2.line.naver.jp/mh/api'
+    LINE_TIMELINE_MH            = 'https://gd2.line.naver.jp/mh'
+    LINE_OBJECT_URL             = 'https://obs.line-scdn.net/'
     LINE_LOGIN_QUERY_PATH       = '/api/v4p/rs'
     LINE_AUTH_QUERY_PATH        = '/api/v4/TalkService.do'
 
@@ -29,32 +29,41 @@ class Config(object):
         'LINE_SERVICES': '1459630796'
     }
 
-    APP_VERSION = {
-        'ANDROID': '8.14.2',
-        'IOS': '8.14.2',
-        'ANDROIDLITE': '2.1.0',
-        'BIZANDROID': '1.7.2',
-        'BIZIOS': '1.7.5',
-        'BIZWEB': '1.0.22',
-        'DESKTOPWIN': '5.9.0',
-        'DESKTOPMAC': '5.9.0',
-        'IOSIPAD': '8.14.2',
-        'CHROMEOS': '2.1.5',
-        'WIN10': '5.5.5',
-        'DEFAULT': '8.11.0'
+    HEADERS = {
+        "ANDROIDLITE": {
+               "user-agent": "Line/2.17.0",
+               "x-line-application": "ANDROIDLITE\t2.17.0\tAndroid OS\t10;SECONDARY"
+        },
+        "DESKTOPMAC": {
+               "user-agent": "Line/6.0.7",
+               "x-line-application": "DESKTOPMAC\t7.5.0\tMAC\t10"
+        },
+        "ANDROID": {
+               "user-agent": "Line/12.4.2",
+               "x-line-application": "ANDROID\t12.4.2\tAndroid OS\t10"
+        },
+        "IOSIPAD": {
+               "user-agent": "Line/12.3.0",
+               "x-line-application": "IOSIPAD\t12.3.0\tAndroid OS\t10"
+        },
+        "CHROMEOS": {
+              "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Safari/537.36 Edg/88.0.705.50",
+              "x-line-application": "CHROMEOS\t2.4.5\tChrome OS\t1"
+        },
+        "DESKTOPWIN": {
+             "user-agent": "Line/6.3.2",
+             "x-line-application": "DESKTOPWIN\t6.3.2\tDz-PC\t10.0.14;SECONDARY"
+        }        
     }
 
-    APP_TYPE    = 'WIN10'
-    APP_VER     = APP_VERSION[APP_TYPE] if APP_TYPE in APP_VERSION else APP_VERSION['DEFAULT']
+    APP_TYPE    = "DESKTOPWIN" #CHOOSE YOUR HEADERS
     CARRIER     = '51089, 1-0'
-    SYSTEM_NAME = 'MAXv3'
-    SYSTEM_VER  = '11.2.5'
+    SYSTEM_NAME = 'DZ SELFBOT'
+    SYSTEM_VER  = '10.0.14'
     IP_ADDR     = '8.8.8.8'
     EMAIL_REGEX = re.compile(r"[^@]+@[^@]+\.[^@]+")
 
-    def __init__(self, appType=None):
-        if appType:
-            self.APP_TYPE = appType
-            self.APP_VER = self.APP_VERSION[self.APP_TYPE] if self.APP_TYPE in self.APP_VERSION else self.APP_VERSION['DEFAULT']
-        self.APP_NAME = '%s\t%s\t%s\t%s' % (self.APP_TYPE, self.APP_VER, self.SYSTEM_NAME, self.SYSTEM_VER)
-        self.USER_AGENT = 'Line/%s' % self.APP_VER
+    def __init__(self):
+        #sniff chrome headers and use those instead, because these will get you messagebanned
+        self.USER_AGENT = self.HEADERS[self.APP_TYPE]["user-agent"]
+        self.APP_NAME = self.HEADERS[self.APP_TYPE]["x-line-application"]

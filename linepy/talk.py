@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from akad.ttypes import Message, Location
 from random import randint
+from Liff.ttypes import LiffChatContext, LiffContext, LiffSquareChatContext, LiffNoneContext, LiffViewRequest
+import json, ntpath, requests,time,random
 
 import json, ntpath
 
@@ -17,8 +19,12 @@ class Talk(object):
     _messageReq = {}
     _unsendMessageReq = 0
 
+   # def __init__(self):
+    #    self.isLogin = True
+        
     def __init__(self):
         self.isLogin = True
+        self.wm = json.loads(open('filetoken/settings.json','r').read())
 
     """User"""
 
@@ -94,6 +100,11 @@ class Talk(object):
         return self.poll.getLastOpRevision()
 
     """Message"""
+    
+    @loggedIn
+    def sendFooter(self, to, text, link, icon, footer):
+        contentMetadata = {'AGENT_LINK': link, 'AGENT_ICON': icon, 'AGENT_NAME': footer}
+        return self.sendMessage(to, text, contentMetadata)
 
     @loggedIn
     def sendMessageaaaa(self, to, text, contentMetadata={}, contentType=0):
@@ -105,8 +116,24 @@ class Talk(object):
             self._messageReq[to] = -1
         self._messageReq[to] += 1
         return self.talk.sendMessage(self._messageReq[to], msg)
+        
+    @loggedIn
+    def generateReplyMessage(self, relatedMessageId):
+        msg = Message()
+        msg.relatedMessageServiceCode = 1
+        msg.messageRelationType = 3
+        msg.relatedMessageId = str(relatedMessageId)
+        return msg
+        
+    @loggedIn
+    def sendText(self, Tomid, text):
+        msg = Message()
+        msg.to = Tomid
+        msg.text = text
+        return self.talk.sendMessage(0, msg)
+        
     def sendMessage(self, to, text, contentMetadata={}, contentType=0,msgid=None):
-        #msg = self.generateReplyMessage(relatedMessageId)
+        msg = self.generateReplyMessage(relatedMessageId)
         msg = Message()
         if 'MENTION' in contentMetadata.keys()!=None:
             try:
@@ -311,6 +338,20 @@ class Talk(object):
         elif lp == 's':adalah = text.replace(separate[0]+" "+separate[1]+" ","")
         else:adalah = text.replace(separate[0]+" "+separate[1]+" "+separate[2]+" ","")
         return adalah
+        
+    @loggedIn
+    def sendSticker(self, to, packageId, stickerId):
+        contentMetadata = {
+            'STKVER': '100',
+            'STKPKGID': packageId,
+            'STKID': stickerId
+        }
+        return self.sendMessage(to, '', contentMetadata, 7)
+        
+    @loggedIn
+    def sendContact(self, to, mid):
+        contentMetadata = {'mid': mid}
+        return self.sendMessage(to, '', contentMetadata, 13)
 
     @loggedIn
     def getRecentMessagesV2(self, chatId, count=1001):
@@ -326,6 +367,10 @@ class Talk(object):
             self._messageReq[to] = -1
         self._messageReq[to] += 1
         return self.talk.sendMessage(self._messageReq[to], msg)
+        
+    @loggedIn
+    def sendMessage1(self, messageObject):
+        return self.talk.sendMessage(0,messageObject)    
 
     @loggedIn
     def sendMessageObject(self, msg):
@@ -429,6 +474,10 @@ class Talk(object):
             self._messageReq[to] = -1
         self._messageReq[to] += 1
         return self.talk.sendMessage(self._messageReq[to], msg)
+        
+    @loggedIn
+    def getRecentMessagesV2(self, messageBoxId, messagesCount=50):
+        return self.talk.getRecentMessagesV2(messageBoxId, messagesCount)
 
     @loggedIn
     def generateReplyMessage(self, relatedMessageId):
@@ -440,7 +489,10 @@ class Talk(object):
 
     @loggedIn
     def sendReplyMessage(self, relatedMessageId, to, text, contentMetadata={}, contentType=0):
-        msg = self.generateReplyMessage(relatedMessageId)
+        msg = Message()
+        msg.relatedMessageServiceCode = 1
+        msg.messageRelationType = 3
+        msg.relatedMessageId = str(relatedMessageId)
         msg.to = to
         msg.text = text
         msg.contentType = contentType
@@ -449,6 +501,38 @@ class Talk(object):
             self._messageReq[to] = -1
         self._messageReq[to] += 1
         return self.talk.sendMessage(self._messageReq[to], msg)
+		
+    @loggedIn	
+    def sendMessageWithMention(self, to, text='', dataMid=[]):
+        arr = []
+        list_text=''
+        if '[list]' in text.lower():
+            i=0
+            for l in dataMid:
+                list_text+='\n@[list-'+str(i)+']'
+                i=i+1
+            text=text.replace('[list]', list_text)
+        elif '[list-' in text.lower():
+            text=text
+        else:
+            i=0
+            for l in dataMid:
+                list_text+=' @[list-'+str(i)+']'
+                i=i+1
+            text=text+list_text
+        i=0
+        for l in dataMid:
+            mid=l
+            name='@[list-'+str(i)+']'
+            ln_text=text.replace('\n',' ')
+            if ln_text.find(name):
+                line_s=int(ln_text.index(name))
+                line_e=(int(line_s)+int(len(name)))
+            arrData={'S': str(line_s), 'E': str(line_e), 'M': mid}
+            arr.append(arrData)
+            i=i+1
+        contentMetadata={'MENTION':str('{"MENTIONEES":' + json.dumps(arr).replace(' ','') + '}')}
+        return self.sendMessage(to, text, contentMetadata)
 
     @loggedIn
     def sendReplyWithFooter(self, rynId, to, text, title=None, link=None, iconlink=None, contentMetadata={}):
@@ -473,7 +557,7 @@ class Talk(object):
     def sendMention(self, to, text="", mids=[]):
         arrData = ""
         arr = []
-        mention = "@ryn "
+        mention = "@dz "
         if mids == []:
             raise Exception("Invalid mids")
         if "@!" in text:
@@ -497,12 +581,43 @@ class Talk(object):
             arr.append(arrData)
             textx += mention + str(text)
         return self.sendMessage(to, textx, {'MENTION': str('{"MENTIONEES":' + json.dumps(arr) + '}')}, 0)
+        
+    def sendMention2(self,to, text="",ps='', mids=[]):
+        arrData = ""
+        arr = []
+        mention = "@EnesMention "
+        if mids == []:
+            raise Exception("Invalid mids")
+        if "@!" in text:
+            if text.count("@!") != len(mids):
+                raise Exception("Invalid mids")
+            texts = text.split("@!")
+            textx = ''
+            h = ''
+            for mid in range(len(mids)):
+                h+= str(texts[mid].encode('unicode-escape'))
+                textx += str(texts[mid])
+                if h != textx:slen = len(textx)+h.count('U0');elen = len(textx)+h.count('U0') + 13
+                else:slen = len(textx);elen = len(textx) + 13
+                arrData = {'S':str(slen), 'E':str(elen), 'M':mids[mid]}
+                arr.append(arrData)
+                textx += mention
+            textx += str(texts[len(mids)])
+        else:
+            textx = ''
+            slen = len(textx)
+            elen = len(textx) + 18
+            arrData = {'S':str(slen), 'E':str(elen - 4), 'M':mids[0]}
+            arr.append(arrData)
+            textx += mention + str(text)
+        self.sendMessage2(to, textx, {'AGENT_LINK': 'line://ti/p/~{}'.format(self.profile.userid),'AGENT_ICON': "http://dl.profile.line-cdn.net/" + self.getProfile().picturePath,'AGENT_NAME': ps,'MENTION': str('{"MENTIONEES":' + json.dumps(arr) + '}')}, 0)
+    
 
     @loggedIn
     def sendMentionV2(self, to, text="", mids=[], isUnicode=False):
         arrData = ""
         arr = []
-        mention = "@rynkings__ "
+        mention = "@dz "
         if mids == []:
             raise Exception("Invalid mids")
         if "@!" in text:
@@ -532,12 +647,23 @@ class Talk(object):
         else:
             raise Exception("Invalid mention position")
         self.sendMessage(to, textx, {'MENTION': str('{"MENTIONEES":' + json.dumps(arr) + '}')}, 0)
+        
+    @loggedIn
+    def sendMessage2(self, to, text, contentMetadata={}, contentType=0):
+        msg = Message()
+        msg.to, msg._from = to, self.profile.mid
+        msg.text = text
+        msg.contentType, msg.contentMetadata = contentType, contentMetadata
+        if to not in self._messageReq:
+            self._messageReq[to] = -1
+        self._messageReq[to] += 1
+        return self.talk.sendMessage(self._messageReq[to], msg)
 
     @loggedIn
     def sendReplyMention(self,RynId, to, text="", mids=[]):
         arrData = ""
         arr = []
-        mention = "@rynkings__ "
+        mention = "@dz "
         if mids == []:
             raise Exception("Invalid mids")
         if "@!" in text:
@@ -566,7 +692,7 @@ class Talk(object):
     def sendFakeMention(self, to, text="", mids=[]):
         arrData = ""
         arr = []
-        mention = "@rynkings__ "
+        mention = "@dz "
         if mids == []:
             raise Exception("Invalid mids")
         if "@!" in text:
@@ -591,6 +717,19 @@ class Talk(object):
             textx += mention + str(text)
         return self.sendMessage(to, textx, {'MENTION': str('{"MENTIONEES":' + json.dumps(arr) + '}'),"MSG_SENDER_NAME": "http://dl.profile.line-cdn.net/{}".format(self.getContact(arr).pictureStatus),"MSG_SENDER_ICON": "{}".format(self.getContact(arr).displayName)}, 0)
         
+    def datamention(self, to, text, data, ps=''):
+        if(data == [] or data == {}):return self.sendMention(to," 「 {} 」\nSorry @! I can't found maybe empty".format(text),text,[msg._from])
+        k = len(data)//20
+        for aa in range(k+1):
+            if aa == 0:dd = '╭「 {} 」─{}'.format(text,ps);no=aa
+            else:dd = '├「 {} 」─{}'.format(text,ps);no=aa*20
+            msgas = dd
+            for i in data[aa*20 : (aa+1)*20]:
+                no+=1
+                if no == len(data):msgas+='\n╰{}. @!'.format(no)
+                else:msgas+='\n│{}. @!'.format(no)
+            self.sendMention2(to, msgas,' 「 {} 」'.format(text), data[aa*20 : (aa+1)*20])
+             
     @loggedIn
     def sendMessageWithMention(self, to, text='', dataMid=[]):
         arr = []
@@ -709,7 +848,7 @@ class Talk(object):
             self._messageReq[to] = -1
         self._messageReq[to] += 1
         return self.talk.sendMessageAwaitCommit(self._messageReq[to], msg)
-
+       
     @loggedIn
     def unsendMessage(self, messageId):
         self._unsendMessageReq += 1

@@ -20,7 +20,7 @@ class Liff(object):
     def issueLiffView(self, to):
         az = LiffChatContext(to)
         ax = LiffContext(chat=az)
-        lf = LiffViewRequest('1647207293-rNJ7MlJm', ax)
+        lf = LiffViewRequest('1602687308-GXq4Vvk9', ax)
         return self.liff.issueLiffView(lf)
         
     @loggedIn
@@ -36,7 +36,7 @@ class Liff(object):
         headers = {
             'X-Line-Access': self.authToken,
             'X-Line-Application': self.server.APP_NAME,
-            'X-Line-ChannelId': '1647207293',
+            'X-Line-ChannelId': '1603968955',
             'Content-Type': 'application/json'
         }
         requests.post(url, json=data, headers=headers)
@@ -55,21 +55,7 @@ class Liff(object):
         }
         res = requests.post(url, headers=headers, data=json.dumps(data))
         return res
-
-    @loggedIn
-    def sendFlex(self, to, data):
-        token = self.issueLiffView(to)
-        url = 'https://api.line.me/message/v3/share'
-        headers = {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer %s' % token.accessToken
-        }
-        data = {
-            'messages': [data]
-        }
-        res = requests.post(url, headers=headers, data=json.dumps(data))
-        return res
-
+        
     @loggedIn
     def postFlex(self, to, data='', altText=''):
         self.allowLiff()
@@ -107,7 +93,7 @@ class Liff(object):
     def issueLiffSquareView(self, to):
         az = LiffSquareChatContext(to)
         ax = LiffContext(squareChat=az)
-        lf = LiffViewRequest('1647207293-rNJ7MlJm', ax)
+        lf = LiffViewRequest('1602687308-GXq4Vvk9', ax)
         return self.liff.issueLiffView(lf)
 
     @loggedIn

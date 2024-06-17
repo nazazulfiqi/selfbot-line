@@ -7,10 +7,10 @@ class Server(Config):
     timelineHeaders = {}
     Headers         = {}
 
-    def __init__(self, appType=None):
+    def __init__(self):
         self.Headers = {}
-        self.timelineHeaders = {}
-        Config.__init__(self, appType)
+        self.channelHeaders = {}
+        Config.__init__(self)
 
     def parseUrl(self, path):
         return self.LINE_HOST_DOMAIN + path

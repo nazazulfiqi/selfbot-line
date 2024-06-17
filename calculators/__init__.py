@@ -1,0 +1,14 @@
+# -*- coding: utf-8 -*-
+
+"""
+Please Don't Remove Author
+"""
+
+__title__ = 'calculator'
+__version__ = '0.0.1'
+__build__ = 0x000003
+__author__ = '??????? ????????'
+__license__ = 'The BSD 3-Clause License'
+__copyright__ = 'Copyright 2020 ??????? ????????'
+
+from . import apself
